@@ -1,0 +1,103 @@
+### Imports
+
+*****  import networkx as nx
+
+->Purpose: networkx is a Python library for creating, analyzing, and visualizing graphs (networks).
+->Why it's needed: Networks (like computers connected in a topology) are naturally modeled as graphs. networkx provides tools to create and manage nodes, edges, and algorithms like shortest path.
+->Alternatives: Libraries like igraph or PyGraph can be used, but networkx is user-friendly and well-documented.
+
+***** import matplotlib.pyplot as plt
+
+->Purpose: matplotlib is a Python library for data visualization. Here, it’s used to draw and display the graph visually.
+->Why it's needed: To represent the topology as a diagram so users can understand the network visually.
+->Alternatives: Visualization libraries like plotly or seaborn could be used for interactive or styled visualizations.
+
+### Class Definition
+
+***** class NetworkSimulator:
+
+->Purpose: Encapsulates all functionality related to the network into a single reusable component.
+->Why use a class: A class organizes code into logical units (methods) and makes it easier to reuse and extend functionality.
+->Alternatives: Functions could be used instead of a class, but a class helps manage state (like the self.graph object).
+
+### Constructor
+
+****** def __init__(self):
+
+->Purpose: Initializes the NetworkSimulator object. This is automatically called when you create an instance of the class.
+->Why it's needed: To set up the network (graph) object that will store nodes and edges.
+
+****** self.graph = nx.DiGraph()
+
+->Purpose: Creates an empty directed graph.
+->Why use DiGraph: A directed graph (edges have direction, e.g., A → B) is used because traffic in a network often flows in specific directions.
+->Alternatives: Use nx.Graph() for an undirected graph if directionality isn’t important.
+
+### Add Node
+
+***** def add_node(self, node):
+
+->Purpose: Adds a node (a point in the network) to the graph.
+->Why use this: A network must have nodes (e.g., computers, routers) to form the structure.
+->How it works: The networkx function add_node() takes the node identifier (like 1, "Router A", etc.) and adds it to the graph.
+->Alternatives: Nodes can be added in bulk using self.graph.add_nodes_from([list_of_nodes]).
+
+### Add Edge
+
+***** def add_edge(self, source, target, weight=1):
+
+->Purpose: Adds a connection (edge) between two nodes in the graph, with an optional weight.
+->Why use this: Edges represent connections (e.g., network cables, wireless links) between nodes. The weight can represent metrics like bandwidth, latency, or cost.
+->How it works: The add_edge() function connects the source and target with optional attributes (like weight).
+->Alternatives: Bulk edges can be added using self.graph.add_edges_from([(src1, tgt1), (src2, tgt2)]).
+
+### Show Topology
+
+***** pos = nx.spring_layout(self.graph)
+
+->Purpose: Calculates positions for the nodes using the spring layout algorithm.
+->Why use spring_layout: It arranges nodes to minimize edge crossings, giving a visually clear graph.
+->Alternatives: Layouts like circular_layout() or random_layout() are available.
+
+***** nx.draw(self.graph, pos, ...)
+
+->Purpose: Draws the graph using calculated positions.
+->Parameters:
+  with_labels=True: Shows node identifiers.
+  node_size=700: Makes nodes larger.
+  node_color='lightblue': Colors nodes for clarity.
+  arrows=True: Shows arrowheads for directed edges.
+
+***** edge_labels = nx.get_edge_attributes(self.graph, 'weight')
+
+->Purpose: Retrieves weights of all edges to display them.
+
+***** nx.draw_networkx_edge_labels(...)
+
+->Purpose: Draws edge labels (e.g., weights) on the graph.
+
+***** plt.show()
+
+->Purpose: Displays the graph visualization.
+
+### Stimulate Traffic
+
+***** nx.shortest_path(...)
+
+->Purpose: Finds the shortest path between source and target based on edge weights.
+->Why use this: It mimics real-world traffic routing, where paths are chosen based on cost or distance.
+->Alternatives: Use all_shortest_paths() or dijkstra_path() for variations.
+
+***** self._highlight_path(path)
+
+->Purpose: Highlights the discovered path on the graph.
+
+->Exception Handling to ensures the program doesn’t crash if no path exists.
+
+### Highlight Path
+
+->Purpose: Highlights the shortest path found during traffic simulation.
+->Key Steps:
+      [(path[i], path[i+1])...]: Creates a list of consecutive edges in the path.
+      nx.draw_networkx_edges(...): Redraws edges in red to indicate the path.
+->Visualization: Uses the same layout (spring_layout) for consistency.
