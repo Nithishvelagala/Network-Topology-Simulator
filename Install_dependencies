@@ -1,0 +1,31 @@
+##### Mandatory Dependencies #####
+
+-------> pip install networkx 
+
+-------> pip install matplotlib
+
+##### Optional Dependencies #####
+
+-------> pip install numpy
+
+-------> pip install pygraphviz
+
+            ##### For Ubuntu/Debian:
+
+            -----> sudo apt-get install graphviz libgraphviz-dev
+
+            ##### For Mac:
+
+            -----> brew install graphviz
+
+------->  pip install plotly  
+
+-------> pip install seaborn
+
+#####  Development Tools #####
+
+------> pip install black
+
+------> pip install flake8
+
+------> pip install pytest
