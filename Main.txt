@@ -1,0 +1,34 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+
+class NetworkSimulator:
+    def __init__(self):
+        self.graph = nx.DiGraph()
+
+    def add_node(self, node):
+        self.graph.add_node(node)
+
+    def add_edge(self, source, target, weight=1):
+        self.graph.add_edge(source, target, weight=weight)
+
+    def show_topology(self):
+        pos = nx.spring_layout(self.graph)
+        nx.draw(self.graph, pos, with_labels=True, node_size=700, node_color='lightblue', arrows=True)
+        edge_labels = nx.get_edge_attributes(self.graph, 'weight')
+        nx.draw_networkx_edge_labels(self.graph, pos, edge_labels=edge_labels)
+        plt.show()
+
+    def simulate_traffic(self, source, target):
+        try:
+            path = nx.shortest_path(self.graph, source, target, weight='weight')
+            print(f"Path from {source} to {target}: {path}")
+            self._highlight_path(path)
+        except nx.NetworkXNoPath:
+            print(f"No path from {source} to {target}.")
+
+    def _highlight_path(self, path):
+        pos = nx.spring_layout(self.graph)
+        nx.draw(self.graph, pos, with_labels=True, node_size=700, node_color='lightblue', arrows=True)
+        edges = [(path[i], path[i+1]) for i in range(len(path)-1)]
+        nx.draw_networkx_edges(self.graph, pos, edgelist=edges, edge_color='red', width=2)
+        plt.show()
